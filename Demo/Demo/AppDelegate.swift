@@ -17,14 +17,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let window = UIWindow()
+        
         let vc = StackViewControllerFactory.makeWithContentViews(createViews(count: 10))
         let rootVc = UIViewController()
+        rootVc.view.backgroundColor = UIColor.magenta
+        
+        rootVc.addChildViewController(vc)
         rootVc.view.addSubview(vc.view)
-        vc.view.bounds = CGRect(x: 0,
-                               y: 0,
-                               width: window.screen.bounds.size.width/2.0,
-                               height: window.screen.bounds.size.width/2.0)
-        vc.view.center = rootVc.view.center
+        vc.view.translatesAutoresizingMaskIntoConstraints = false
+        vc.view.widthAnchor.constraint(equalTo: rootVc.view.widthAnchor, multiplier: 0.5).isActive = true
+        vc.view.heightAnchor.constraint(equalTo: rootVc.view.widthAnchor, multiplier: 0.5).isActive = true
+        vc.view.centerXAnchor.constraint(equalTo: rootVc.view.centerXAnchor).isActive = true
+        vc.view.centerYAnchor.constraint(equalTo: rootVc.view.centerYAnchor).isActive = true
+        vc.didMove(toParentViewController: rootVc)
+        
         window.rootViewController = rootVc
         window.makeKeyAndVisible()
         self.window = window
